@@ -58,7 +58,7 @@ class TestCurrentDayMenuListAPIView(APITestCase):
         )
         self.yesterday_menu = Menu.objects.create(
             restaurant=self.restaurant,
-            date=date.today()-timedelta(days=1),
+            date=date.today() - timedelta(days=1),
             info='Yesterday Menu'
         )
         self.user = Employee.objects.create_user(

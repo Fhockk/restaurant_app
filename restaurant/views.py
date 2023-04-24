@@ -1,6 +1,7 @@
 from datetime import date
 
 from rest_framework import generics
+from rest_framework.permissions import IsAdminUser
 from django.db.models import Count
 
 from restaurant.models import Restaurant, Menu, Vote
@@ -12,11 +13,13 @@ from restaurant.serializers import (
 class RestaurantCreateAPIView(generics.CreateAPIView):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
+    permission_classes = (IsAdminUser,)
 
 
 class MenuCreateAPIView(generics.CreateAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
+    permission_classes = (IsAdminUser,)
 
 
 class CurrentDayMenuListAPIView(generics.ListAPIView):
@@ -37,5 +40,3 @@ class CurrentDayResultsListAPIView(generics.ListAPIView):
         today = date.today()
         queryset = Menu.objects.filter(date=today).annotate(count_of_votes=Count('votes')).order_by('-count_of_votes')
         return queryset
-
-
